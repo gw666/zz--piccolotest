@@ -14,9 +14,16 @@
 
 (ns piccolotest
  (:gen-class)
- (:import (edu.umd.cs.piccolo PCanvas PNode PLayer)
-   (edu.umd.cs.piccolo.nodes PText)
-   (edu.umd.cs.piccolox PFrame)))
+ (:import
+   (edu.umd.cs.piccolo   PCamera PCanvas PInputManager PLayer PNode
+     POffscreenCanvas PRoot)
+   (edu.umd.cs.piccolo.eventvent   PBasicInputEventHandler PDragEventHandler
+      PDragSequenceEventHandler PInputEvent PInputEventFilter PPanEventHandler
+      PZoomEventHandler)
+   (edu.umd.cs.piccolo.nodes   PHtmlView PImage PPath PText)
+   (edu.umd.cs.piccolo.util   PAffineTransform PBounds PDebug PDimension
+     PObjectOutputStream PPaintContext PPickPath PStack PUtil
+   (edu.umd.cs.piccolox )))
 
 (defn create-frame
   "Creates the main PFrame used by the program."
