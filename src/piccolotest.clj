@@ -17,13 +17,13 @@
  (:import
    (edu.umd.cs.piccolo   PCamera PCanvas PInputManager PLayer PNode
      POffscreenCanvas PRoot)
-   (edu.umd.cs.piccolo.eventvent   PBasicInputEventHandler PDragEventHandler
+   (edu.umd.cs.piccolo.event   PBasicInputEventHandler PDragEventHandler
       PDragSequenceEventHandler PInputEvent PInputEventFilter PPanEventHandler
       PZoomEventHandler)
    (edu.umd.cs.piccolo.nodes   PHtmlView PImage PPath PText)
    (edu.umd.cs.piccolo.util   PAffineTransform PBounds PDebug PDimension
-     PObjectOutputStream PPaintContext PPickPath PStack PUtil
-   (edu.umd.cs.piccolox )))
+     PObjectOutputStream PPaintContext PPickPath PStack PUtil)
+   (edu.umd.cs.piccolox   PApplet PFrame)))
 
 (defn create-frame
   "Creates the main PFrame used by the program."
