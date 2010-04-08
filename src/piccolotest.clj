@@ -25,16 +25,32 @@
   (proxy [PFrame] []
     (initialize []
       (let [aNode (PNode.)
-            node2 (PNode.)
-            layer (.. this getCanvas getLayer)]
-
-        (.setBounds aNode 0 0 100 80)
-        (.setPaint aNode (Color. 255 0 0))
-
-        (.addChild layer aNode)
+            anotherNode (PNode.)
+            layer (.. this getCanvas getLayer)
+            image (PImage. (.toImage layer 300 300 nil))]
 
         (.. this getCanvas (setPanEventHandler nil))
         (.. this getCanvas (addInputEventListener (PDragEventHandler.)))
+
+        (.setBounds aNode 0 0 100 80)
+        (.setPaint aNode (Color/RED))
+        (.addChild layer aNode)
+
+        (.setBounds anotherNode 0 0 100 80)
+        (.setPaint anotherNode (Color/YELLOW))
+        (.addChild aNode anotherNode)
+
+        (.setBounds aNode -10 -10 200 110)
+
+        (.translate aNode 100 100)
+        (.scale aNode (Float. 1.5))
+        (.rotate aNode 45)
+
+        (.addChild layer (PPath/createEllipse 0 0 100 100))
+        (.addChild layer (PPath/createRectangle 0 100 100 100))
+        (.addChild layer (PText. "Hello World"))
+
+        (.addChild layer image)
 
         ))))
 
