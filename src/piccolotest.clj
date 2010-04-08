@@ -5,19 +5,19 @@
 ;
 
 (ns piccolotest
- (:gen-class)
- (:import
-   (java.awt   Color Graphics2D)
-   (edu.umd.cs.piccolo   PCamera PCanvas PInputManager PLayer PNode
-     POffscreenCanvas PRoot)
-   (edu.umd.cs.piccolo.event   PBasicInputEventHandler PDragEventHandler
+  (:gen-class)
+  (:import
+    (java.awt   Color Graphics2D)
+    (edu.umd.cs.piccolo   PCamera PCanvas PInputManager PLayer PNode
+      POffscreenCanvas PRoot)
+    (edu.umd.cs.piccolo.event   PBasicInputEventHandler PDragEventHandler
       PDragSequenceEventHandler PInputEvent PInputEventFilter PPanEventHandler
       PZoomEventHandler)
-   (edu.umd.cs.piccolo.nodes   PHtmlView PImage PPath PText)
-   (edu.umd.cs.piccolo.util   PAffineTransform PBounds PDebug PDimension
-     PObjectOutputStream PPaintContext PPickPath PStack PUtil)
-   (edu.umd.cs.piccolox   PApplet PFrame)
-   ))
+    (edu.umd.cs.piccolo.nodes   PHtmlView PImage PPath PText)
+    (edu.umd.cs.piccolo.util   PAffineTransform PBounds PDebug PDimension
+      PObjectOutputStream PPaintContext PPickPath PStack PUtil)
+    (edu.umd.cs.piccolox   PApplet PFrame)
+    ))
 
 (defn create-interface-frame
   "Creates the main InterfaceFrame used by the program."
@@ -50,7 +50,8 @@
         (.addChild layer (PPath/createRectangle 0 100 100 100))
         (.addChild layer (PText. "Hello World"))
 
-        (.addChild layer image)
+        (let [image (PImage. (.toImage layer 300 300 nil))]
+          (.addChild layer image))
 
         ))))
 
