@@ -21,22 +21,32 @@
 (defn create-interface-frame
   "Creates the main InterfaceFrame used by the program."
   []
-
-  (defn create-toggle-shape
-    "Creates an ellipse that changes color when it is clicked."
-    []
-    (proxy [PPath] []
-      (PPath []
-        (.setPathToEllipse this 0 0 100 80)
-        (println "Hello world!"))))
-
-
   (proxy [PFrame] []
+
     (initialize []
       (let [aNode (PNode.)
             anotherNode (PNode.)
             layer (.. this getCanvas getLayer)
             image (PImage. (.toImage layer 300 300 nil))]
+
+        (defn create-toggle-shape
+          "Creates an ellipse that changes color when it is clicked."
+          []
+          (let [fIsPressed? (ref false)]
+            (proxy [PPath] []
+
+              (PPath []
+                (.setPathToEllipse this 0 0 100 80))
+              
+              (paint [paintContext]
+                (if (fIsPressed?)
+                  (let [g2 (.getGraphics paintContext)]
+                    (do
+                      (.. g2 setPaint getPaint)
+                      (.fill g2 (.getBoundsReference this))
+                      ))
+                  (proxy-super paint paintContext)))
+              )))
 
         (.. this getCanvas (setPanEventHandler nil))
         (.. this getCanvas (addInputEventListener (PDragEventHandler.)))
@@ -84,13 +94,14 @@
             (.setBounds myCompositeFace b)
 
             (.scale myCompositeFace 1.5)
-            
+
             (.addChild layer myCompositeFace))
 
           (let [ts (create-toggle-shape)]
             (.setPaint ts (Color/ORANGE))
             (.addChild layer ts))
-          )))))
+          )))
+    ))
 
 
 
