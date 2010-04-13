@@ -18,6 +18,28 @@
       PObjectOutputStream PPaintContext PPickPath PStack PUtil)
     (edu.umd.cs.piccolox   PApplet PFrame)))
 
+(defn create-toggle-shape
+  "Creates an ellipse that changes shape when it is clicked."
+  []
+  (let [fIsPressed? (ref false)]
+    (proxy [PPath] []
+
+      (PPath []
+        (proxy-super PPath)
+        (.setPathToEllipse this 0 0 100 80)
+        ;add input listeners here
+        )
+
+      (paint [paintContext]
+        (if (fIsPressed?)
+          (let [g2 (.getGraphics paintContext)]
+            (do
+              (.. g2 setPaint getPaint)
+              (.fill g2 (.getBoundsReference this))
+              ))
+          (proxy-super paint paintContext)))
+      )))
+
 (defn create-interface-frame
   "Creates the main InterfaceFrame used by the program."
   []
@@ -29,25 +51,6 @@
             layer (.. this getCanvas getLayer)
             image (PImage. (.toImage layer 300 300 nil))]
 
-        (defn create-toggle-shape
-          "Creates an ellipse that changes color when it is clicked."
-          []
-          (let [fIsPressed? (ref false)]
-            (proxy [PPath] []
-
-              (PPath []
-                (.setPathToEllipse this 0 0 100 80))
-              
-              (paint [paintContext]
-                (if (fIsPressed?)
-                  (let [g2 (.getGraphics paintContext)]
-                    (do
-                      (.. g2 setPaint getPaint)
-                      (.fill g2 (.getBoundsReference this))
-                      ))
-                  (proxy-super paint paintContext)))
-              )))
-
         (.. this getCanvas (setPanEventHandler nil))
         (.. this getCanvas (addInputEventListener (PDragEventHandler.)))
 
@@ -55,6 +58,7 @@
         (.setPaint aNode (Color/RED))
         (.addChild layer aNode)
 
+        (comment
         (.setBounds anotherNode 0 0 100 80)
         (.setPaint anotherNode (Color/YELLOW))
         (.addChild aNode anotherNode)
@@ -95,13 +99,14 @@
 
             (.scale myCompositeFace 1.5)
 
-            (.addChild layer myCompositeFace))
+            (.addChild layer myCompositeFace)))
+        )  ; end COMMENT
 
-          (let [ts (create-toggle-shape)]
-            (.setPaint ts (Color/ORANGE))
-            (.addChild layer ts))
-          )))
-    ))
+        (let [ts (create-toggle-shape)]
+          (.setPaint ts (Color/ORANGE))
+          (.addChild layer ts))
+        )))
+  )
 
 
 
